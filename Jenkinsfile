@@ -13,6 +13,7 @@ pipeline {
             steps {
                 sh 'npm install' 
                 sh 'echo "hello"'
+		sh 'echo "hell again<img src=x onerror=alert(1)>"'
             }
         }
         stage('Test') {
